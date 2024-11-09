@@ -1,15 +1,18 @@
+import java.util.Objects;
+
 public class Employee {
-    private String fullName;
+    private final String fullName;
     private int departament;
     private int salary;
-    private static int ID;
+    private static int idCounter = 0;
+    private final int id;
 
     public Employee(String fullName, int departament, int salary) {
+        idCounter++;
         this.fullName = fullName;
         this.departament = departament;
         this.salary = salary;
-        Employee.ID++;
-        this.ID = ID;
+        this.id = idCounter;
     }
 
     public String getFullName() {
@@ -24,14 +27,6 @@ public class Employee {
         return salary;
     }
 
-    public static int getID() {
-        return ID;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     public void setDepartament(int departament) {
         this.departament = departament;
     }
@@ -40,5 +35,28 @@ public class Employee {
         this.salary = salary;
     }
 
+    public int getID() {
+        return id;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return departament == employee.departament && salary == employee.salary && id == employee.id && Objects.equals(fullName, employee.fullName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, departament, salary, id);
+    }
+
+    @Override
+    public String toString() {
+        return "Сотрудник (id " + id +") - " +
+                "'" + fullName + '\'' +
+                ", отдел №" + departament +
+                ", ЗП " + salary + " руб.";
+    }
 }
